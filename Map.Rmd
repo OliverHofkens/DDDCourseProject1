@@ -1,0 +1,23 @@
+---
+title: "Traffic Signs in the city of Antwerp"
+author: "Oliver Hofkens"
+date: "7/4/2017"
+output: html_document
+---
+
+## Summary
+The following is a map of 20k traffic signs in the city of Antwerp (http://opendata.antwerpen.be/datasets/verkeersborden).
+They are clustered based on location (try zooming in and out!), and will show the fabrication date + the text of the sign when clicked (if any).
+
+```{r}
+data = read.csv("http://datasets.antwerpen.be/v4/gis/verkeersbordpt.csv", sep=";")
+```
+
+```{r}
+library("leaflet")
+
+map <- leaflet() %>%
+    addTiles() %>%
+    addMarkers(data$point_lng, data$point_lat, group=data$beeldvlak ,clusterOptions=markerClusterOptions(), popup=paste(data$fabdatum, data$opschrift, sep="<br>"))
+map
+```
